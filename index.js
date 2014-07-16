@@ -19,16 +19,7 @@ function locationStream() {
 var app = express();
 
 app.get('/locations', function(req, res) {
-  var locations = locationStream();
-  locations.pipe(sse()).pipe(res);
-
-  locations.on('data', function(data) {
-    res.write(data);
-  });
-
-  locations.on('end', function(data) {
-    res.end();
-  });
+  locationStream().pipe(sse()).pipe(res);
 });
 
 var server = app.listen(3000, function() {
