@@ -1,5 +1,6 @@
 var JSONStream = require('JSONStream');
 var es = require('event-stream');
+var express = require('express');
 var fs = require('fs');
 var http = require('http');
 var request = require('request');
@@ -11,10 +12,25 @@ function locationStream() {
     .pipe(es.map(function (data, cb) {
       request('http://freegeoip.net/json/' + data, function(err, res, body) {
         cb(null, body);
-      })
+      });
     }));
 }
 
-http.createServer(function(req, res){
-  locationStream().pipe(sse()).pipe(res);
-}).listen(3000);
+var app = express();
+
+app.get('/locations', function(req, res) {
+  var locations = locationStream();
+  locations.pipe(sse()).pipe(res);
+
+  locations.on('data', function(data) {
+    res.write(data);
+  });
+
+  locations.on('end', function(data) {
+    res.end();
+  });
+});
+
+var server = app.listen(3000, function() {
+  console.log('Listening on port %d', server.address().port);
+});
