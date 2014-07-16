@@ -1,12 +1,13 @@
 {
-  "name": "geo-deploys",
+  "name": "world-domination",
   "version": "0.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
+    "start": "node index.js"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Max Schoening",
   "license": "ISC",
   "dependencies": {
     "JSONStream": "^0.8.4",
