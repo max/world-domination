@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<title>Locations</title>
+
+<script>
+  var source = new EventSource('/locations');
+  source.addEventListener('message', function(e) {
+    if (e.origin != 'http://localhost:3000') {
+      alert('Origin was not http://localhost:3000');
+      return;
+    }
+    console.log(e.data);
+  }, false);
+</script>
+
+<p>Hello World</p>
